@@ -6,11 +6,16 @@ import "../Pages/productDetails.css"
 
 function ProductDetails() {
     const { id } = useParams();
-    const { data, addToCart, handleSend, setText, text, savedText } = useContext(DataContext)
+    const { data,
+        addToCart,
+        handleSend,
+        setText,
+        text,
+        reviewsByProduct } = useContext(DataContext)
 
 
     const product = data.find(p => p.id === Number(id));
-    
+    const productReviews = reviewsByProduct[id] || [];
 
     if (!product) {
         return <h2>Loading...</h2>;
@@ -64,13 +69,24 @@ function ProductDetails() {
 
 
             <div className="text_area">
-                {savedText.map((msg, index) => (
+                {productReviews.map((msg, index) => (
                     <li key={index}>{msg}</li>
                 ))}
-                <input className="input_field" value={text} onChange={(e) => setText(e.target.value)} ></input>
-                <button onClick={handleSend} className="send_btn">Send</button>
 
+                <input
+                    className="input_field"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                />
+
+                <button
+                    onClick={() => handleSend(id)}
+                    className="send_btn"
+                >
+                    Send
+                </button>
             </div>
+
         </>
 
     )

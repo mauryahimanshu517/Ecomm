@@ -7,8 +7,11 @@ const DataProvider = ({ children }) => {
     const savedProduct = localStorage.getItem("Product");
     return savedProduct ? JSON.parse(savedProduct) : null;
   });
-  
-  const [savedText, setSavedText] = useState([]);
+
+  const [reviewsByProduct, setReviewsByProduct] = useState(() => {
+    const stored = localStorage.getItem("productReviews");
+    return stored ? JSON.parse(stored) : {};
+  });
   const [text, setText] = useState("");
 
   const [cart, setCart] = useState(() => {
@@ -24,7 +27,7 @@ const DataProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("Product", JSON.stringify(data));
   }, [cart]);
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,15 +73,37 @@ const DataProvider = ({ children }) => {
     ))
   }
 
-  const handleSend = () => {
+  const handleSend = (productId) => {
     if (!text.trim()) return;
 
-    setSavedText((prev) => [...prev, text]);
+    setReviewsByProduct(prev => {
+      const updated = {
+        ...prev,
+        [productId]: [...(prev[productId] || []), text]
+      };
+
+      localStorage.setItem("productReviews", JSON.stringify(updated));
+      return updated;
+    });
+
     setText("");
   };
 
+
   return (
-    <DataContext.Provider value={{ data, Increment, handleSend, Decrement, setText, savedText, setData, text, addToCart, cart, setCart, DeleteProduct }}>
+    <DataContext.Provider value={{
+      data,
+      reviewsByProduct,
+      handleSend,
+      setText,
+      text,
+      addToCart,
+      cart,
+      setCart,
+      DeleteProduct,
+      Increment,
+      Decrement
+    }}>
       {children}
     </DataContext.Provider>
   );
