@@ -48,13 +48,18 @@ const DataProvider = ({ children }) => {
   }, []);
 
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const isProductAdd = prevCart.some((item) => item.id === product.id)
-      if (isProductAdd)
-        return prevCart
-      else
-        return [...prevCart, product]
-    });
+   setCart((prev)=>{
+    const data=prev.some((items)=> items.id === product.id)
+    console.log(data)
+    if(data){
+      console.log(data,prev)
+      return prev
+    }
+    else{
+      console.log(data)
+      return [...prev,product]
+    }
+   })
   };
 
   const DeleteProduct = (id) => {
