@@ -1,8 +1,13 @@
 import React from 'react'
+import Upload from "../Component/Upload/Upload"
 
 function About() {
   return (
-    <div>About</div>
+    <>
+      <div>About</div>
+    <Upload/>
+    </>
+  
   )
 }
 

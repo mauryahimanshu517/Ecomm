@@ -43,6 +43,7 @@
 .btn btn-primary{
   width: 100%;
 }
+
 .button-container {
   display: flex;
   /* background-color: #000000; */
@@ -50,4 +51,30 @@
   justify-content: center;
   gap: 10px;
 }
+.search_cat{
+width: 100%;
+padding: 10px 10px;
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+
+.search{
+  width: 50%;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+  
+}
+.search_btn{
+  width: 120px;
+  background-color: rgb(255, 0, 217);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+#product{
+ width: 120px;
+}
+
 
