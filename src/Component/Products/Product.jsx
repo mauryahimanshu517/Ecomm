@@ -6,33 +6,44 @@ import { Link } from "react-router-dom"
 function Product() {
     const { data, addToCart } = useContext(DataContext)
     const [categories, setcategories] = useState('ALL')
+    const [search, setSearch] = useState("")
+    const [first, setfirst] = useState(data)
     const uniqueCategories = [
        "ALL", ...new Set(data?.map(item => item.category))
     ];
     // console.log(data)
-    function valuedata(e) {
+    function valuedata(e) { 
         // console.log("data from value data ",e.target.value)
         setcategories(e.target.value)
     }
-    console.log(categories)
+
+    const filterElement=data?.filter((items)=>{
+         return items.title.toLowerCase().startsWith(search.trim().toLowerCase())
+    })
+    function clickbtn(){
+        setfirst(filterElement)
+    }
+
+//    console.log(filterElement)
     return (
         <>
             <h1 className="Product_heading">Products</h1>
             <div className="search_cat">
-                <input className="search" placeholder='Search for product'></input>
-                <button className='search_btn'>Search</button>
-                <select name="cars" id="product" onChange={(e) => valuedata(e)}>
+                <input className="search" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search for product'></input>
+                <button className='search_btn' onClick={clickbtn}>Search</button>
+                <select name="cars" id="product" onChange={(e) => valuedata(e)}> 
                     {uniqueCategories.map((items, index) => {
                         return (
                             <option value={items} key={index} >{items}</option>
                         )
 
-                    })}
+                    })} 
                 </select>
             </div>
             <div className="product-grid">
                 <div className="product-grid">
-                    {data?.filter(product =>
+                    {first?.filter(product =>
+                    
                             categories === "ALL" || product.category === categories
                         )
                         .map((product, index) => (
@@ -46,7 +57,7 @@ function Product() {
                                 </Link>
 
                                 <div className="card-body">
-                                    <h5 className="card-title">{product.title.slice(0, 28)}</h5>
+                                    <h5 className="card-title">{product.title.slice(0,28)}</h5>
                                     <p className="card-text">
                                         {product.description.slice(0, 40) + "..."}
                                     </p>
